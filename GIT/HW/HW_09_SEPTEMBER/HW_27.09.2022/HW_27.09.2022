@@ -1,0 +1,14 @@
+1 git branch -m назв
+
+2 git branch назв 
+  git switch назв или git checkout назв
+или одной командой
+  git checkout -b назв  или  git switch -c назв
+
+3 git branch -d назв
+
+4 Зайти в ветку которую хотим смержить
+ git merge назв ветки с которой хотим смержить  
+
+
+
