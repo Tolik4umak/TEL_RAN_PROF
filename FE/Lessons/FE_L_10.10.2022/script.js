@@ -61,14 +61,12 @@
 
 
 
-function showGreeting () {
-    let messege = "hello";
-    console.log(messege);
-
-    return "TOLIK"
+function showGreeting (a=0,b=1) {
+    console.log(a+b);
+    return a+b;
 };
 
 
-showGreeting();
+let x = showGreeting();
 
-console.log(showGreeting());
+// console.log(x);
