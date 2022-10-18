@@ -1,0 +1,33 @@
+CREATE TABLE goods 
+(
+  id int PRIMARY KEY,
+  title varchar(30),
+  quantity int CHECK(quantity>0),
+  price int, 
+  in_stock char(1) CHECK(in_stock in ('Y','N'))
+);
+
+
+INSERT INTO goods VALUES
+( 13502,
+ 'stove',
+ 10,
+ 3100,
+ 'N'
+ );
+ 
+ INSERT INTO goods VALUES
+( 13503,
+ 'oven',
+ 3,
+ 4500,
+ 'Y'
+ );
+ 
+  INSERT INTO goods VALUES
+( 13504,
+ 'kitchen hoods',
+ 7,
+ 3550,
+ 'Y'
+ );

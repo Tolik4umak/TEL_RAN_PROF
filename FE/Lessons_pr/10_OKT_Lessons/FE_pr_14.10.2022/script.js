@@ -373,43 +373,43 @@ Y88b.  888  888      X88 888 "88b 888"
 // если число положительное, и false - если отрицательное. 
 
 
-// let arr = [1,-11,3,-5,8,-6,8,-9,6];
+let arr = [1,-11,3,-5,8,-6,8,-9,6];
 
 
-// let isPositive = number => number>-1;
-// // {
-// //     if(number<0){
-// //         return false;
-// //     }else{
-// //         return true
-// //     }
-// // }
-
-
-// let positiveFilter = arr =>{
-
-//     let positiveArr = [];
-
-
-//     for(let i= 0; i<arr.length;i++){
-//         if(isPositive(arr[i])){
-//             positiveArr.push(arr[i]);
-//         }
+let isPositive = number => number>-1;
+// {
+//     if(number<0){
+//         return false;
+//     }else{
+//         return true
 //     }
-
-
-//     return positiveArr;
-
-// };
-
-
-// console.log(positiveFilter(arr));
-
-
-
-
-
-
-// for(let i =0;i<=10;i+2){
-//     console.log(i)
 // }
+
+
+let positiveFilter = arr =>{
+
+    let positiveArr = [];
+
+
+    for(let i= 0; i<arr.length;i++){
+        if(isPositive(arr[i])){
+            positiveArr.push(arr[i]);
+        }
+    }
+
+
+    return positiveArr;
+
+};
+
+
+console.log(positiveFilter(arr));
+
+
+
+
+
+
+for(let i =0;i<=10;i+2){
+    console.log(i)
+}
