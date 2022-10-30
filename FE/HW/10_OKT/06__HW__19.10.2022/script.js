@@ -109,9 +109,7 @@ let shiftTypeDirection = function(arr, pos, type){
 
 let concatArr = function(arr1, arr2, arr3){
     
-    let newArr = [] ;
-
-    newArr = newArr.concat(arr1.concat(arr2.concat(arr3)));
+    let newArr = arr1.concat(arr2,arr3);
     
     shiftTypeDirection(newArr, 0, 'boolean');
     shiftTypeDirection(newArr, 0, 'number');
