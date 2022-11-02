@@ -319,6 +319,495 @@ from students;
 
 
 
+--  //////    //     //////   // ///
+--   //     // //   ///      ///
+--   //    //////      ///  ////
+--   //   //   //  //////  //  //
+
+
+
+
+
+show tables;
+
+drop table goods;
+
+create table tester(
+id integer primary key auto_increment,
+firstname varchar(128) not null,
+lastname varchar(128) not null,
+subgect varchar(128) default 'will appear later',
+start_time numeric(4,2) check(start_time <= 24.00),
+finish_time numeric(4,2) check(finish_time <= 24.00),
+mark integer check(mark between 0 and 12)
+);
+
+alter table tester
+add teacher_name varchar(128);
+
+alter table tester
+drop column teacher_name;
+
+drop table tester;
+show tables;
+
+insert into tester (firstname,lastname,subgect,start_time,finish_time,mark) values ('Anatolii','Chumak','Math',9.30,12.50,12),
+																				('Lida','Petrova','Phisik',7.00,10.45,10),
+																				('Vladislav','Nadtochei','Biology',7.00,12.45,11),
+																				('Roman','Furdui','Math',18.00,23.00,8),
+																				('Violetta','Chumak','Deutch',8.15,12.30,12),
+																				('Anatolii','Onichenko','Biologi',10.00,15.00,8);
+                                                                                
+                                                                                
+alter table tester
+add class integer;
+
+update tester
+set class = 10;
+
+update tester
+set class = 11
+where lastname in ('Chumak');
+
+update tester
+set class = 9 
+where id = 3;
+
+alter table tester
+add mentor varchar(128);
+
+alter table tester
+modify column class varchar(128);
+
+alter table tester
+modify column class integer check(class between 0 and 12);
+
+update tester
+set class = 15;
+
+alter table tester
+drop check tester_chk_4;
+
+update tester
+set mark = 13
+where id = 2;
+
+alter table tester
+modify column mark integer check(mark between 0 and 12); 
+
+alter table tester 
+change class classroom  varchar(128);
+
+alter table tester 
+modify column classroom integer check(classroom between 0 and 20);
+
+update tester
+set classroom = 19
+where id =2;
+
+select * from tester;
+
+
+
+--  //////    //     //////   // ///       ///////
+--   //     // //   ///      ///              ///
+--   //    //////      ///  ////          ///
+--   //   //   //  //////  //  //        ///////
+
+show databases;
+
+use TOLIKDATABASE;
+
+show tables;
+
+drop database TOLIKDATABASE;
+
+create database task2;
+use task2;
+
+
+create table front(
+	id integer primary key auto_increment,
+    firstname varchar(128) not null,
+    lastname varchar(128) not null,
+    class integer check(class between 1 and 10),
+    sub varchar(128) not null,
+    mark integer check(mark between 0 and 5)
+);
+
+
+insert into front(firstname,lastname,class,sub,mark) value ('Albet','Enstain',10,'Phisick',1),
+															('Fill','Richards',10,'marvel',2),
+                                                            ('Rayan','GOsling',8,'actor',3),
+                                                            ('Sem','Vinchester',8,'killer',0),
+                                                            ('Din','Vinchester',7,'killer',0),
+                                                            ('Harry','Potter',3,'visard',1),
+                                                            ('Ron','Visley',3,'visard',2),
+                                                            ('Hermiona','Granger',3,'witch',3),
+                                                            ('Drako','Malfoy',1,'visard',0),
+                                                            ('Albus','Dambledor',6,'derector',5),
+                                                            ('Dobby','Elf',4,'clining',1);
+
+update front
+set mark = 4
+where firstname like ('H%');
+
+
+update front 
+set mark = 0
+where mark =1 and lastname like ('E%');
+
+-- Удалить из таблицы студентов, у которых оценка 0
+delete from front
+where mark = 0;
+
+-- Найти всех студентов, у которых оценка выше 3
+select *
+from front
+where mark > 3;
+
+-- Найти всех студентов, которые учатся в первом классе и у них оценка меньше 3
+select *
+from front
+where class = 1 and mark > 3;
+
+-- Удалить из таблицы этих студентов
+delete from front
+where class = 1 and mark > 3;
+
+-- Найти всех студентов, у которых длина имени больше 4 букв
+select *
+from front
+where firstname like ('%_____%');
+
+--   Найти всех студентов, у которых фамилия начинается с буквы "a" и имеет длину не менее 3 символов. 
+select *
+from front
+where lastname like ('V__%');
+
+-- В таблице оставить тех студентов, которые (проходят Х предмет и оценка выше 4) и тех студентов (которые учатся 7-10 классах и у них оценки ниже 3).
+delete from front
+where (sub in ('killer') and mark > 4 ) or (class between 7 and 10 and mark < 3 );
+
+
+
+
+
+
+select * from front;
+
+
+
+
+/*
+██      ███████ ███████ ███████  ██████  ███    ██     ██   ██ 
+██      ██      ██      ██      ██    ██ ████   ██     ██   ██ 
+██      █████   ███████ ███████ ██    ██ ██ ██  ██     ███████ 
+██      ██           ██      ██ ██    ██ ██  ██ ██          ██ 
+███████ ███████ ███████ ███████  ██████  ██   ████          ██ 
+                                                               
+                                                               
+*/
+-- ОБЪЕДИНЕНИЕ ТАБЛИЦ
+-- UNION / UNION ALL - "вертикальное" объединение
+
+-- Пример синтаксиса
+select customer_id from customers
+union all
+select order_id from orders
+union all
+select shipping_id from shippings;
+
+
+-- JOIN (INNER, LEFT, RIGHT) - "горизонтальное" объединение
+
+-- пример из песочницы (https://www.programiz.com/sql/online-compiler/)
+select
+	t1.first_name,
+    t1.last_name,
+    t2.item,
+    t3.status
+from customers t1
+inner join orders t2
+on t1.customer_id = t2.customer_id
+inner join shippings t3
+on t2.customer_id = t3.customer;
+
+
+-- /////////////////////////////////////////
+-- /////////////////////////////////////////
+-- /////////////////////////////////////////
+-- /////////////////////////////////////////
+-- /////////////////////////////////////////
+
+
+use tasks;
+show databases;
+show tables;
+
+
+select *
+from students;
+
+select *
+from tester;
+
+alter table students
+drop check students_chk_1;
+
+alter table students
+modify column avg_mark numeric(3,1);
+
+set sql_safe_updates = 0; 
+
+
+update students
+set avg_mark = avg_mark*10;
+
+
+
+
+-- склеить колонки
+select firstname as names from students
+union
+select firstname from tester;
+
+
+update tester 
+set firstname = 'Олег'
+where id = 2;
+
+
+
+delete from students
+where id =6;
+
+insert into students(firstname,lastname,avg_mark,gender) values ('Anatolii','Chumak',50.2,'M');
+
+
+alter table students
+drop check students_chk_1;
+
+alter table students
+change gender sex char(1);
+
+update students
+set sex = 'w'
+where sex = 'f';
+
+alter table students
+modify column sex char(1) check(sex in('f','m'));
+
+
+
+
+select *
+from students;
+
+
+
+
+
+/*
+██████  ██████   █████   ██████ ████████ ██ ███████ ███████     ██████  
+██   ██ ██   ██ ██   ██ ██         ██    ██ ██      ██               ██ 
+██████  ██████  ███████ ██         ██    ██ ███████ █████        █████  
+██      ██   ██ ██   ██ ██         ██    ██      ██ ██          ██      
+██      ██   ██ ██   ██  ██████    ██    ██ ███████ ███████     ███████                                                             
+*/
+
+/*
+1. Создать таблицу employees; 
+employee_id целое число первичный ключ автоинкремент старт = 100, 
+fname строка не null, 
+last_name строка не null, 
+email строка не null, 
+phone строка не null 
+*/
+
+create table employees(
+	employee_id integer primary key auto_increment,
+    fname varchar(128) not null,
+	last_name varchar(128) not null,
+    email varchar(128) not null,
+    phone varchar(128) not null   
+) auto_increment = 100;
+
+
+-- 2. Ой, забыли про зарплату)) Добавить поле salary numeric(9, 2), 
+
+alter table employees
+add salary numeric(9,2);
+
+-- 3. Ойййй, нет, зарплата должна быть целым числом. Изменить тип salary на integer 
+
+alter table employees
+modify column salary integer;
+
+-- 4. Переименовать поле name на first_name 
+
+alter table employees
+change fname first_name varchar(128);
+
+
+-- 5. Удалить поле phone
+
+alter table employees
+drop phone;
+
+
+-- 6. Добавить поле department
+
+alter table employees
+add department varchar(64) not null;
+
+insert into employees(first_name, last_name, email, salary, department) values("Steven","King",	"SKING", 24000, "Sales");
+insert into employees(first_name, last_name, email, salary, department) values("Neena" , "Kochhar" , "NKOCHHAR" , 17000 , "Sales");
+insert into employees(first_name, last_name, email, salary, department) values("Lex" , "De Haan" , "LDEHAAN" , 17000 , "Sales");
+insert into employees(first_name, last_name, email, salary, department) values("Alexander" , "Hunold" , "AHUNOLD" , 9000 , "Finance");
+insert into employees(first_name, last_name, email, salary, department) values("Bruce" , "Ernst" , "BERNST" , 6000 , "Finance");
+insert into employees(first_name, last_name, email, salary, department) values("Valli" , "Pataballa" , "VPATABAL" , 4800 , "Finance");
+insert into employees(first_name, last_name, email, salary, department) values("Diana" , "Lorentz" , "DIANALO" , 8800 , "Finance");
+insert into employees(first_name, last_name, email, salary, department) values("Nancy" , "Greenberg" , "NGREENBE" , 12008 , "Shipping");
+insert into employees(first_name, last_name, email, salary, department) values("Daniel" , "Faviet" , "DFAVIET" , 9000 , "Shipping");
+insert into employees(first_name, last_name, email, salary, department) values("Jose Manuel" , "Urman" , "JMURMAN" , 7800 , "Shipping");
+insert into employees(first_name, last_name, email, salary, department) values("Luis" , "Popp" , "LPOPP" , 6900 , "Shipping");
+insert into employees(first_name, last_name, email, salary, department) values("Den" , "Raphaely" , "DRAPHEAL" , 11000 , "Marketing");
+insert into employees(first_name, last_name, email, salary, department) values("Alexander" , "Khoo" , "AKHOO" , 3100 , "Marketing");
+insert into employees(first_name, last_name, email, salary, department) values("Shelli" , "Baida" , "SBAIDA" , 2900 , "Marketing");
+insert into employees(first_name, last_name, email, salary, department) values("Sigal" , "Tobias" , "STOBIAS" , 2800 , "Marketing");
+insert into employees(first_name, last_name, email, salary, department) values("Matthew" , "Weiss" , "MWEISS" , 8000 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Adam" , "Fripp" , "AFRIPP" , 8200 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Payam" , "Kaufling" , "PKAUFLIN" , 7900 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Shanta" , "Vollman" , "SVOLLMAN" , 6500 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Kevin" , "Mourgos" , "KMOURGOS" , 5800 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Julia" , "Nayer" , "JNAYER" , 3200 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Adam" , "Markle" , "SMARKLE" , 2200 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Laura" , "Bissot" , "LBISSOT" , 3300 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Mozhe" , "Atkinson" , "MATKINSO" , 2800 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Joshua" , "Patel" , "JPATEL" , 2500 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Trenna" , "Rajs" , "TRAJS" , 3500 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("John" , "Russell" , "JRUSSEL" , 14000 , "IT");
+insert into employees(first_name, last_name, email, salary, department) values("Karen" , "Partners" , "KPARTNER" , 13500 , "IT");
+insert into employees(first_name, last_name, email, salary, department) values("Alberto" , "Errazuriz" , "AERRAZUR" , 12000 , "IT");
+insert into employees(first_name, last_name, email, salary, department) values("Gerald" , "Cambrault" , "GCAMBRAU" , 11000 , "IT");
+insert into employees(first_name, last_name, email, salary, department) values("Eleni" , "Zlotkey" , "EZLOTKEY" , 10500 , "IT");
+insert into employees(first_name, last_name, email, salary, department) values("Adam" , "Vargas" , "PVARGAS" , 2500 , "Human Resources");
+insert into employees(first_name, last_name, email, salary, department) values("Laura" , "Errazuriz" , "AERRAZUR" , 12000 , "IT");
+
+
+
+
+
+
+-- 8. Найти всех ИТ работников с зарплатой выше 12000 
+
+select *
+from employees
+where salary > 12000;
+
+-- 9. Повысить зарплату работников отдела Human Resources в 5 раз 
+
+
+set sql_safe_updates = 0; 
+
+update employees
+set salary = salary*5
+where department in ('Human Resources');
+
+-- 10. Найти работников отдела Marketing с зарплатой ниже 2850. 
+
+select *
+from employees
+where salary < 2850 and department = 'Marketing';
+
+-- У руководителя родились близнецы Лаура и Адам, в честь праздника он решил повысить зарплату работников с именами Лаура и Адам в 10 раз. 
+
+update employees
+set salary = salary*10
+where first_name in ('Laura','Adam');
+
+-- Diana Lorentz вышла замуж и поменяла фамилию на King. Поменяйте у Diana Lorentz фамилию на King. 
+
+update employees
+set last_name = 'King'
+where first_name = 'Diana' and  last_name = 'Lorentz';
+
+-- 13. Всех работников отдела sales уволили. Удалите работников sales из таблицы. 
+
+delete from employees
+where department = 'Sales';
+
+
+-- 14. John Russell перевели в отдел Marketing и повысили зарплату на 5000. Измените данные для работника John Russell. 
+
+
+update employees
+set salary = salary + 5000,
+department = 'Marketing'
+where first_name = 'John' and  last_name = 'Russell';
+
+
+--  15. После праздника руководитель протрезвел и уменьшил зарплаты работников с именами Лаура и Адам в 10 раз.
+
+update employees
+set salary = salary/10
+where first_name in ('Laura','Adam');
+
+
+-- 16. Laura Bissot поменяла свой мейл на BISSOTLAURA. Измените данные для работника Laura Bissot.
+
+update employees
+set email = 'BISSOTLAURA'
+where first_name = 'Laura' and  last_name = 'Bissot';
+
+
+-- 17. Diana King развелась и поменяла фамилию обратно на Lorentz. И в честь развода руководитель повысил ее зарплату на 2000. Измените данные для работника Diana King. 
+
+update employees
+set last_name = 'Lorentz',
+salary = salary + 2000
+where first_name = 'Diana' and  last_name = 'King';
+
+
+
+
+select *
+from employees
+where first_name = 'Diana' and  last_name = 'Lorentz';
+
+select *
+from employees;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

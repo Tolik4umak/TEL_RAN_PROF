@@ -16,20 +16,20 @@
 
 // let array = ['ttt', 'fff', 555, true, false, undefined, null, 0, 5, 61, 1];
 
-// function withoutArr(arr, ...dellData){
-//     let filteredArr = [...arr]; 
+function withoutArr(arr, ...dellData){
+    let filteredArr = [...arr]; 
 
     
-//     dellData.forEach(
-//         deleteItem => {
-//             filteredArr = filteredArr.filter(
-//                 elem => elem !== deleteItem
-//             )
-//         }
-//     )
+    dellData.forEach(
+        deleteItem => {
+            filteredArr = filteredArr.filter(
+                elem => elem !== deleteItem
+            )
+        }
+    )
       
-//     return filteredArr;
-// }
+    return filteredArr;
+}
 
 // console.log(array);
 // console.log(withoutArr(array, 555, 61));
@@ -49,6 +49,7 @@ function withoutArr(arr, ...dellData){
     arr.forEach(  // перебираем все елементы исходного массива
         el => {
             let flag = true; // устанавливаем индикатор
+            
             dellData.forEach(   // перебираем все исключения
                 del => {
                     if(del === el){  // проверяем итый елемент на совпадение с исключением
@@ -56,6 +57,7 @@ function withoutArr(arr, ...dellData){
                     }
                 }
             )
+
             if(flag){
                 filteredArr.push(el)  // если индикатор так и остался true -  добавляем этот елемент к массиву
             }
