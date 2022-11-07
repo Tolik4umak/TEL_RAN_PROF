@@ -1,0 +1,39 @@
+доп 1    min O(1) если a != b ,  max O(n) в остальных случаях
+
+void method(int a, int b) {
+        while (a != b) {
+            if (a > b) {
+                a = a - b;
+            } else {
+                b = b - a;
+            }
+        }
+    }
+
+
+доп 2    О(n^2 × (log n +1)/4)
+Верхних два цикла если смотреть на каждый отдельно = n/2
+Так как они вложены друг в друга  то  -  n^2/4 
+Ну и самый вложенный log n только на 1 иттерацию больше , отсюда
+ log n +1
+
+   void method(int n) {
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = 1; j + n / 2 <= n; j++) {
+                for (int k = 1; k <= n; k = k * 2) {
+                    System.out.println("I am expert!");
+                }
+            }
+        }
+    }
+
+
+доп 3  Между  O(n) и O(n^2)
+Внешний цикл О(n) а внутренний быстрее чем логарифмический так как когда i = n/2 внутренний цикл состоит из 2 иттераций
+void method3(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j = j + i) {
+                System.out.println("I am expert!");
+            }
+        }
+    }

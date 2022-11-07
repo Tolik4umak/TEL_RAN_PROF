@@ -625,13 +625,16 @@ email строка не null,
 phone строка не null 
 */
 
-create table employees(
+
+use tasks;
+
+create table employe(
 	employee_id integer primary key auto_increment,
     fname varchar(128) not null,
 	last_name varchar(128) not null,
     email varchar(128) not null,
-    phone varchar(128) not null   
-) auto_increment = 100;
+    phone varchar(128) not null 
+)auto_increment = 100;
 
 
 -- 2. Ой, забыли про зарплату)) Добавить поле salary numeric(9, 2), 
@@ -778,6 +781,71 @@ where first_name = 'Diana' and  last_name = 'Lorentz';
 
 select *
 from employees;
+
+
+
+
+/*
+██      ███████ ███████ ███████  ██████  ███    ██     ███████ 
+██      ██      ██      ██      ██    ██ ████   ██     ██      
+██      █████   ███████ ███████ ██    ██ ██ ██  ██     ███████ 
+██      ██           ██      ██ ██    ██ ██  ██ ██          ██ 
+███████ ███████ ███████ ███████  ██████  ██   ████     ███████ 
+                                                               
+                                                               
+*/
+
+
+
+show tables;
+-- https://github.com/NelliEfr/hr_data/blob/master/script.sql
+-- 1. Вывести имя и фамилию сотрудника и название его департамента 
+
+select 
+	t1.first_name,
+    t1.last_name,
+    t2.department_name
+from employees t1
+left join departments t2
+on t1.department_id = t2.department_id;
+
+-- 2. Вывести имя и фамилию сотрудника и название его департамента только тех сотрудников, которые работают в IT, Treasury или IT Support 
+
+
+select 
+	t1.first_name,
+    t1.last_name,
+    t2.department_name
+from employees t1
+left join departments t2
+on t1.department_id = t2.department_id
+where t2.department_name in ('IT','Treasury','IT Support');
+
+-- 3. Вывести названия департаментов, в которых никто не работает 
+
+select 
+    t1.department_name,
+    t2.first_name,
+    t2.last_name
+from departments t1
+left join employees t2
+on t1.department_id = t2.department_id
+where  t2.first_name is null;
+
+
+
+
+
+
+
+
+select * from countries;
+select * from departments;
+select * from employees;
+select * from jobs;
+select * from locations;
+select * from regions;
+
 
 
 
