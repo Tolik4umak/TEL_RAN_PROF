@@ -846,6 +846,311 @@ select * from jobs;
 select * from locations;
 select * from regions;
 
+/*
+██      ███████ ███████ ███████  ██████  ███    ██      ██████  
+██      ██      ██      ██      ██    ██ ████   ██     ██       
+██      █████   ███████ ███████ ██    ██ ██ ██  ██     ███████  
+██      ██           ██      ██ ██    ██ ██  ██ ██     ██    ██ 
+███████ ███████ ███████ ███████  ██████  ██   ████      ██████  
+                                                                
+                                                                
+*/
+
+
+show databases;
+use uni;
+show tables;
+
+-- hw
+
+
+select
+t1.first_name,
+t1.last_name,
+t3.city
+from employees t1
+inner join departments t2
+on t1.department_id = t2.department_id
+inner join locations t3
+on t2.location_id = t3.location_id
+where t3.city in ('Seattle', 'Toronto'); 
+
+
+-- 
+
+select
+t1.first_name as employee_firstname,
+t1.last_name as employee_lest_name,
+t2.first_name as manager_firstname,
+t2.last_name as manager_lastname
+from employees t1
+inner join employees t2
+on t1.manager_id = t2.employee_id; 
+
+
+
+--
+
+select 
+t1.job_id
+from employees t1
+inner join employees t2
+on t1.manager_id = t2.employee_id
+where t1.salary > t1.salary; 
+
+
+-- ПРАКТИЧЕСКАЯ РАБОТАalter
+
+
+create database uni;
+use uni;
+set sql_safe_updates = 0;  -- выключает безопастный режим
+
+/*1) создать таблицу Students
+с полями:
+- id целое число первичный ключ автоинкремент
+- name строка 128 не null
+- age целое число*/
+
+create table students(
+	id integer primary key auto_increment,
+    name varchar(128) not null,
+    age integer
+);
+
+/*2) создать таблицу Teachers
+с полями:
+- id целое число первичный ключ автоинкремент
+- name строка 128 не null
+- age целое число*/
+
+create table teachers(
+	id integer primary key auto_increment,
+    name varchar(128) not null,
+    age integer
+);
+
+/*3) создать таблицу Competencies
+с полями:
+- id целое число первичный ключ автоинкремент
+- title строка 128 не null*/
+
+create table competencies(
+	id integer primary key auto_increment,
+    title varchar(128) not null
+);
+
+
+/*4) создать таблицу Teachers2Competencies
+с полями:
+- id целое число первичный ключ автоинкремент
+- teacher_id целое число
+- competencies_id целое числоl*/
+
+create table teachers2Competencies(
+	id integer primary key auto_increment,
+    teacher_id integer,
+    competencies_id integer
+);
+
+/*
+5) создать таблицу Courses
+- id целое число первичный ключ автоинкремент
+- teacher_id целое число
+- title строка 128 не null
+- headman_id целое число*/
+
+create table courses(
+	id integer primary key auto_increment,
+    teacher_id integer,
+    title varchar(128) not null,
+    headman_id integer
+);
+
+
+
+/*
+6) создать таблицу Students2Courses
+- id целое число первичный ключ автоинкремент
+- student_id целое число
+- course_id целое число*/
+
+create table students2Courses(
+	id integer primary key auto_increment,
+    student_id integer,
+    course_id integer
+);
+
+
+
+
+
+
+--
+
+insert into students(name,age) values('Anatolii', 29),
+										('Oled', 25),
+                                        ('Semen', 27),
+                                        ('Olesia', 28),
+                                        ('Olga', 31),
+                                        ('Ivan', 22);
+--
+insert into teachers(name,age) values('Petr', 39),
+									('Maksim', 35),
+									('Anton', 37),
+									('Vsevolod', 38),
+									('Egor', 41),
+									('Svetlana', 32);
+--
+insert into competencies(title) values('Математика'),
+									('Информатика'),
+									('Программирование'),
+									('Графика');
+--
+insert into teachers2Competencies(teacher_id,competencies_id) values(1,1),
+																	(2,1),
+																	(2,3),
+																	(3,2),
+																	(4,1),
+																	(5,3);
+                                                                    
+/*
+Добавьте 5 записей в таблицу Courses
+
+1 Алгебра логики 2
+2 Математическая статистика 3
+4 Высшая математика 5
+5 Javascript 1
+5 Базовый Python 1
+*/
+insert into courses(teacher_id,title,headman_id) values(1 ,'Алгебра логики', 2),
+														(2, 'Математическая статистика', 3),
+														(4, 'Высшая математика', 5),
+														(5, 'Javascript', 1),
+														(5, 'Базовый Python', 1);
+                                                        
+                                                        
+/*
+Добавьте 5 записей в таблицу students2courses
+
+1 1
+2 1
+3 2
+3 3
+4 5
+*/
+insert into students2Courses(student_id,course_id) values(1,1),
+															(2,1),
+															(3,2),
+															(3,3),
+															(4,5);
+
+show tables;
+
+select * from students;
+select * from teachers;
+select * from competencies;
+select * from teachers2Competencies;
+select * from courses;
+select * from students2Courses;
+
+
+
+select 
+	t1.name,
+    t3.title
+from students t1
+inner join students2Courses t2
+on t1.id = t2.student_id
+inner join courses t3
+on t2.course_id = t3.id;
+
+
+
+
+-- ДЗ
+
+-- 1
+ 
+select
+	t1.name,
+	t3.title
+from teachers t1
+inner join teachers2Competencies t2
+on t1.id = t2.teacher_id
+inner join competencies t3
+on t2.competencies_id = t3.id;
+
+-- 2
+
+select 
+	t1.name,
+    t2.competencies_id
+from teachers t1
+left join teachers2Competencies t2
+on t1.id = t2.teacher_id
+where t2.teacher_id is null;
+
+-- 3
+
+select
+	t1.name,
+    t2.course_id
+from students t1
+left join students2Courses t2
+on t1.id = t2.student_id
+where t2.course_id is null;
+
+-- 4 
+
+select
+	t1.title,
+    t2.course_id
+from courses t1
+left join students2Courses t2
+on t1.id = t2.course_id
+where t2.course_id is null;
+
+
+
+/*
+██      ███████ ███████ ███████  ██████  ███    ██     ███████ 
+██      ██      ██      ██      ██    ██ ████   ██          ██ 
+██      █████   ███████ ███████ ██    ██ ██ ██  ██         ██  
+██      ██           ██      ██ ██    ██ ██  ██ ██        ██   
+███████ ███████ ███████ ███████  ██████  ██   ████        ██
+*/
+-- 5. Найти компетенции, которых нет ни у одного преподавателя
+
+select 
+	t1.title
+from competencies t1
+left join teachers2Competencies t2
+on t1.id = t2.competencies_id
+where t2.competencies_id is null;
+
+-- 6. Вывести название курса и имя старосты 
+
+select 
+	t1.title,
+    t2.name
+from courses t1
+inner join students t2
+on t1.headman_id = t2.id;
+
+-- 7. Выведите имя студента и имена старост, которые есть на курсах, которые он проходит 
+
+select
+	t1.name,
+    t3.title,
+    t4.name as headmen
+from students t1
+inner join students2Courses t2
+on t1.id = t2.student_id
+inner join courses t3
+on t2.course_id = t3.id
+inner join students t4
+on t3.headman_id = t4.id;
 
 
 
@@ -853,11 +1158,9 @@ select * from regions;
 
 
 
+    
 
-
-
-
-
+    
 
 
 
