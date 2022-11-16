@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main{
+    width: 30%;
+    height: 50%;
+}
+
+
+
+
+
+
+.book{
+    background-color: antiquewhite;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.book p{
+    padding: 10px 0;
+}
+button{
+    width: 50%;
+    padding: 10px 0;
+    font-size: 24px;
+    border: none;
+    outline: none;
+    background-color: seagreen;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+button:hover{
+    background-color: rgb(31, 99, 62);
+}
+
+button:active{
+    transform: scale(0.95);
+}

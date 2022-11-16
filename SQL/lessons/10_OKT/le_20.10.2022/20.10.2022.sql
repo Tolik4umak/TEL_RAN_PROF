@@ -1153,6 +1153,109 @@ inner join students t4
 on t3.headman_id = t4.id;
 
 
+/*
+██████  ██████       ██     ██   ██     ██       ██  ██████      ██  ██    ██████   ██████  ██████  ██████  
+██   ██ ██   ██     ██      ██   ██      ██     ███ ██          ███ ███         ██ ██  ████      ██      ██ 
+██████  ██████      ██      ███████      ██      ██ ███████      ██  ██     █████  ██ ██ ██  █████   █████  
+██      ██   ██     ██           ██      ██      ██ ██    ██     ██  ██    ██      ████  ██ ██      ██      
+██      ██   ██      ██          ██     ██       ██  ██████  ██  ██  ██ ██ ███████  ██████  ███████ ███████                                                                    
+*/
+
+select * from oe.categories_tab;
+select * from oe.customers;
+select * from oe.orders;
+select * from oe.order_items;
+select * from oe.product_information;
+
+
+
+-- 1. Вывести имя, фамилию пользователей и даты их заказов(order_date). 
+
+
+select 
+    t1.CUST_FIRST_NAME,
+    t1.CUST_LAST_NAME,
+    t2.ORDER_DATE
+from oe.customers t1
+inner join oe.orders t2
+on t1.CUSTOMER_ID = t2.CUSTOMER_ID;
+
+
+-- 2. Вывести даты заказов продуктов и описание этих продуктов(product_description). 
+
+
+select 
+    t1.ORDER_DATE,
+    t3.PRODUCT_DESCRIPTION
+from oe.orders t1
+inner join oe.order_items t2
+on t1.ORDER_ID = t2.ORDER_ID
+inner join oe.product_information t3
+on t2.PRODUCT_ID=t3.PRODUCT_ID;
+
+--3. Вывести имя, фамилию пользователей, даты заказов(order_date), описание продуктов(product_description), которые они заказали и категории соответствующих продуктов (category_name).
+
+select 
+    cus.CUST_FIRST_NAME,
+    cus.CUST_LAST_NAME,
+    ord.ORDER_DATE,
+    info.PRODUCT_DESCRIPTION,
+    cat.CATEGORY_NAME
+from oe.customers cus
+inner join oe.orders ord
+on cus.CUSTOMER_ID = ord.CUSTOMER_ID
+inner join oe.order_items t2
+on ord.order_ID = t2.order_ID
+inner join oe.product_information info
+on t2.PRODUCT_ID = info.PRODUCT_ID
+inner join oe.categories_tab cat
+on cat.CATEGORY_ID = info.CATEGORY_ID;
+
+
+-- 4. Вывести названия(product_name), описания категорий(category_description) и количества(quantity) тех продуктов, у которых минимальная стоимость (min_price) больше 300. 
+    
+    
+    
+select 
+    info.PRODUCT_NAME,
+    cat.CATEGORY_DESCRIPTION,
+    items.QUANTITY
+from oe.product_information info
+inner join oe.order_items items
+on items.PRODUCT_ID = info.PRODUCT_ID
+inner join oe.categories_tab cat
+on cat.CATEGORY_ID = info.CATEGORY_ID
+where info.MIN_PRICE > 300;
+
+-- 5. Вывести имя, фамилию покупателей, которые купили принтеры. 
+    
+select
+    cus.CUST_FIRST_NAME,
+    cus.CUST_LAST_NAME,
+    cat.CATEGORY_DESCRIPTION
+from oe.customers cus
+inner join oe.orders ord
+on ord.CUSTOMER_ID = cus.CUSTOMER_ID
+inner join oe.order_items items
+on items.ORDER_ID = ord.ORDER_ID
+inner join oe.product_information info
+on info.PRODUCT_ID	= items.PRODUCT_ID	
+inner join oe.categories_tab cat
+on cat.CATEGORY_ID = info.CATEGORY_ID
+where cat.CATEGORY_DESCRIPTION = 'printers';
+    
+    
+    
+		-- ДЗ
+    
+-- 6. Вывести имя, фамилию всех женатых мужчин покупателей, которые покупали продукты со стоимостью (list_price) больше 550.
+-- 7. Вывести названия(product_name) тех продуктов, у которых стоимость больше, чем у продукта 'LaserPro 600/6/BW’. 
+
+
+
+
+
+
 
 
 
