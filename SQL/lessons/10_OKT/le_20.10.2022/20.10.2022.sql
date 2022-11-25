@@ -1193,7 +1193,7 @@ on t1.ORDER_ID = t2.ORDER_ID
 inner join oe.product_information t3
 on t2.PRODUCT_ID=t3.PRODUCT_ID;
 
---3. Вывести имя, фамилию пользователей, даты заказов(order_date), описание продуктов(product_description), которые они заказали и категории соответствующих продуктов (category_name).
+-- 3. Вывести имя, фамилию пользователей, даты заказов(order_date), описание продуктов(product_description), которые они заказали и категории соответствующих продуктов (category_name).
 
 select 
     cus.CUST_FIRST_NAME,
@@ -1254,13 +1254,434 @@ where cat.CATEGORY_DESCRIPTION = 'printers';
 
 
 
+/*
+██      ███████ ███████ ███████  ██████  ███    ██      █████  
+██      ██      ██      ██      ██    ██ ████   ██     ██   ██ 
+██      █████   ███████ ███████ ██    ██ ██ ██  ██      █████  
+██      ██           ██      ██ ██    ██ ██  ██ ██     ██   ██ 
+███████ ███████ ███████ ███████  ██████  ██   ████      █████  
+*/
+
+
+-- кол-во не null строк 
+SELECT
+count(*) as customers_count
+FROM Customers;
+
+-- max property of field
+SELECT
+	max(age) as max_age
+FROM Customers;
+
+-- min property of field
+SELECT
+	min(age) as min_age
+FROM Customers;
+
+-- сумма знач по полю
+SELECT
+	sum(age) as sum_age
+FROM Customers;
+
+-- среднее знач по полю
+SELECT
+	avg(age) as avg_age
+FROM Customers;
+
+-- ===================================
+
+-- ===================================
+
+-- ===================================
+
+
+show databases;
+use hr;
+show tables;
+set sql_safe_updates = 0;
+
+-- 1. Найти самую высокую зарплату в компании 
+select
+	max(salary) as max_salary
+from employees;
+-- 2. Найти количество сотрудников в компании 
+SELECT
+count(*) as first_name_count
+FROM employees;
+
+-- 3. Найти количество сотрудников в каждом департаменте. Вывести поля department_id и employees_cnt 
+
+SELECT
+department_id,
+count(*) as first_name_count
+FROM employees
+group by department_id;
+
+-- 4. Найти количество сотрудников в каждом департаменте. Вывести поля department_name и employees_cnt 
+SELECT
+t1.first_name,
+t1.department_id,
+t2.department_name,
+t2.location_id,
+count(t1.first_name) as first_name_count
+FROM employees t1
+left join departments t2
+on t1.department_id = t2.department_id
+group by t2.department_name;
+
+
+SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')); 
+
+
+-- ДЗ
+
+-- 1 
+select 
+	manager_id,
+	count(employee_id) as employees_cnt
+from employees
+group by manager_id;
+
+-- 2 
+-- select 
+-- 	manager_id,
+-- 	count(employee_id) as employees_cnt,
+--     first_name,
+--     last_name
+-- from employees
+-- group by manager_id;-- 
+
+select
+	t1.manager_id,
+	t2.first_name,
+	t2.last_name,
+	count(*) as employees_cnt
+from employees t1
+inner join employees t2
+on t1.manager_id = t2.employee_id
+group by t1.manager_id;
+	
+-- 3 
+select 
+	first_name,
+    salary
+from employees
+where salary < (select avg(salary) from employees);
+-- тренировка
+select 
+	first_name,
+    salary
+from employees
+where salary >= (select salary from employees where first_name = 'Neena' and last_name = 'Kochhar');
+
+
+/*
+██      ███████ ███████ ███████  ██████  ███    ██      █████      ██████   ██████  ██████  ███████  █████  ██████  ██████   ██████  ███████ ██    ██ 
+██      ██      ██      ██      ██    ██ ████   ██     ██   ██     ██   ██ ██    ██ ██   ██    ███  ██   ██ ██   ██ ██   ██ ██    ██ ██       ██  ██  
+██      █████   ███████ ███████ ██    ██ ██ ██  ██      ██████     ██████  ██    ██ ██   ██   ███   ███████ ██████  ██████  ██    ██ ███████   ████   
+██      ██           ██      ██ ██    ██ ██  ██ ██          ██     ██      ██    ██ ██   ██  ███    ██   ██ ██      ██   ██ ██    ██      ██    ██    
+███████ ███████ ███████ ███████  ██████  ██   ████      █████      ██       ██████  ██████  ███████ ██   ██ ██      ██   ██  ██████  ███████    ██                                                                                                                                                    
+*/
+
+
+select 
+	*
+from employees
+where salary < (select min(salary) from employees);
+
+
+-- 1. Найти сотрудников, у которых наибольшая зарплата в их департаменте 
+
+
+select 
+	max(salary)
+from employees
+group by department_id;
+
+
+select 
+	t1.first_name,
+    t1.salary,
+    t2.max_salary
+from employees t1
+inner join (
+		select 
+			department_id,
+			max(salary) as max_salary
+		from employees
+		group by department_id
+		) as t2
+on t1.department_id = t2.department_id
+where t1.salary = t2.max_salary;
 
 
 
 
 
+select 
+	department_id,
+	count(first_name)
+from employees
+group by department_id
+having count(first_name) > 10;
 
 
+select 
+	t1.department_name,
+    t1.department_id,
+    t2.department_id as compare,
+    t2.employees_cnt
+from departments t1
+	inner join (select 
+		department_id,
+		count(first_name) as employees_cnt
+	from employees
+	group by department_id
+	having count(first_name) > 10) t2
+on t1.department_id = t2.department_id;
+
+
+select 
+t1.department_name,
+count(*) as count
+from employees t2
+inner join departments t1
+on t1.department_id = t2.department_id
+group by t1.department_name
+having count > 10; 
+
+
+--
+select 
+t1.department_name
+from employees t2
+inner join departments t1
+on t1.department_id = t2.department_id
+group by t1.department_name
+having count(*) > 10; 
+
+-- ---------
+
+select
+t1.department_name
+from departments t1
+inner join (
+select
+department_id
+from employees
+group by department_id
+having count(*) > 10
+) t2
+on t1.department_id = t2.department_id; 
+
+
+
+-- ДЗ:
+-- 1. Вывести название отделов с кол-вом сотрудников больше среднего  /// колво сотрудников больше среднего 
+-- 2. Найти департамент с наибольшим кол-вом сотрудников 
+
+
+
+select 
+	t1.department_name
+from departments t1
+inner join (select department_id,
+					count(*) as ppd 
+			from employees 
+            group by department_id) t2
+on t1.department_id = t2.department_id
+where ppd > (select avg(ppd) from (select department_id,
+					count(*) as ppd 
+			from employees 
+            group by department_id) t4);
+            
+            
+            
+-- HW 1
+select 
+	t1.department_name,
+    count(*) as ppd
+from departments t1
+inner join employees t2
+on t1.department_id = t2.department_id
+group by t1.department_name
+having ppd > (select avg(count) from (select count(*) as count from employees group by department_id) t3);
+
+-- HW 2
+select 
+	t1.department_name,
+    count(*) as ppd
+from departments t1
+inner join employees t2
+on t1.department_id = t2.department_id
+group by t1.department_name
+having ppd = (select 
+				max(count)
+			from (select count(*) as count from employees group by department_id) t3);
+/*
+██████  ██████       ██  ██████       ██████   █████  ██ ██   ██ 
+██   ██ ██   ██     ███ ██  ████     ██       ██   ██ ██ ██  ██  
+██████  ██████       ██ ██ ██ ██     ██   ███ ███████ ██ █████   
+██      ██   ██      ██ ████  ██     ██    ██ ██   ██ ██ ██  ██  
+██      ██   ██      ██  ██████       ██████  ██   ██ ██ ██   ██ 
+*/
+            
+            
+use hr;
+
+-- 1) найти максимальную зарплату сотрудников 
+
+select 
+	max(salary)
+from employees;
+
+-- 2) найти сотрудников, у которых зарплата больше средней 
+
+select
+	first_name,
+    salary
+from employees
+where salary > (select avg(salary) from employees);
+
+-- 3) найти кол-во сотрудников в каждом департаменте. В результатае выведите id департамента и кол-во сотрудников 
+
+select 
+	department_id,
+    count(employee_id)
+from employees
+group by department_id;
+
+-- ДЗ Вывести название отделов с кол-вом сотрудников больше среднего 
+
+-- move 1
+
+select 
+	department_id,
+    count(employee_id) as ppd
+from employees
+where department_id is not null
+group by department_id;
+
+
+-- move 2 
+select
+	avg(ppd)
+from (select 
+		count(*) as ppd
+	from employees
+	where department_id is not null
+	group by department_id) t1;
+    
+-- move 3
+select 
+	t1.department_name
+from departments t1
+inner join employees t2
+on t1.department_id = t2.department_id
+group by t1.department_name
+having count(*) > (select 
+				avg(count) 
+			from (select 
+						count(*) as count 
+				from employees 
+                where department_id is not null
+				group by department_id) t3);
+                
+                
+                
+select 
+	t2.department_name,
+	t3.cnt
+from departments t2
+inner join (
+select
+department_id,
+count(*) as cnt
+from employees
+where department_id is not null
+group by department_id
+having count(*) > (
+select 
+avg(cnt) 
+from (
+select
+count(*) as cnt
+from employees
+where department_id is not null
+group by department_id
+) t1
+)
+) t3
+on t2.department_id = t3.department_id; 
+
+
+select 
+	department_name
+from departments
+where department_id in (
+	select
+		department_id
+	from employees
+	where department_id is not null
+	group by department_id
+	having count(*) > (
+		select 
+		avg(cnt) 
+		from (
+			select
+				count(*) as cnt
+			from employees
+			where department_id is not null
+			group by department_id
+			) t1)); 
+
+
+
+/*
+██      ███████ ███████ ███████  ██████  ███    ██      ██  ██████       █████   ██████  ██████  ███████  ██████   █████  ████████ ██  ██████  ███    ██ 
+██      ██      ██      ██      ██    ██ ████   ██     ███ ██  ████     ██   ██ ██       ██   ██ ██      ██       ██   ██    ██    ██ ██    ██ ████   ██ 
+██      █████   ███████ ███████ ██    ██ ██ ██  ██      ██ ██ ██ ██     ███████ ██   ███ ██████  █████   ██   ███ ███████    ██    ██ ██    ██ ██ ██  ██ 
+██      ██           ██      ██ ██    ██ ██  ██ ██      ██ ████  ██     ██   ██ ██    ██ ██   ██ ██      ██    ██ ██   ██    ██    ██ ██    ██ ██  ██ ██ 
+███████ ███████ ███████ ███████  ██████  ██   ████      ██  ██████      ██   ██  ██████  ██   ██ ███████  ██████  ██   ██    ██    ██  ██████  ██   ████ 
+*/
+
+
+
+-- Решаем задачи из песочници https://www.programiz.com/sql/online-compiler/
+
+-- Найти имена и фамилии покупателей, чей возраст равен максимальному 
+select 
+	first_name,
+    last_name
+from Customers 
+where age = (select max(age) from Customers);
+
+-- Найти имена и фамилии покупателей, чей возраст равен максимальному 
+select 
+	item,
+ sum(amount)
+from Orders
+group by item;
+
+-- Найти средний чек (amount) у каждого покупателя. Вывести имя, фамилию покупателя и средний чек
+select 
+	t1.first_name,
+    t1.last_name,
+    t2.avg_sum
+from Customers t1
+inner join (select
+	customer_id,
+	avg(amount) as avg_sum
+from Orders
+group by customer_id) t2
+on t2.customer_id = t1.customer_id;
+    
+
+-- ДЗ в песочнице
+-- 1. Средний возраст покупателей из UK
+-- 2. Средний возраст покупателей из UK и USA (в разбивке по странам)
+-- 3. Найти страны, в которых средний возраст покупателей больше или равен 25
+-- 4. Найти тех покупателей, у которых средний amount больше или равен 400. Вывести имя, фамилию покупателя и средний amount 
     
 
     

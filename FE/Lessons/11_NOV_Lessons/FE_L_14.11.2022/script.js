@@ -366,7 +366,7 @@ const products = [
     title: 'лыжи',
     price: 30000,
     count: 1,
-    marks: [4]
+    marks: [4,1]
     }
     ]; 
 
@@ -382,4 +382,12 @@ const products = [
 // const resalt2 = products.reduce((a,{price,count})=> a+(price*count),0);
 
 // console.log(resalt2);
+
+let sum = products.reduce((a,{marks}) => a+marks.reduce((a,b)=>a+b),0);
+
+
+console.log(resultSum);
+
+
+
 
