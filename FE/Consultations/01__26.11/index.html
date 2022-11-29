@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            list-style: none;
+        }
+        .subitem{
+            position: relative;
+        }
+        .hide{
+            display: none;
+        }
+        .havesub{
+            position: relative;
+            padding-right: 20px;
+        }
+        .arrow{
+            border-left: 7px solid black;
+            border-bottom: 5px solid transparent;
+            border-top: 5px solid transparent;
+            display: block;
+            position: absolute;
+            left: 50px;
+            top: 5px;
+            transition: .5s;
+        }
+        .subarrow{
+            left: 80px;
+        }
+        .mirrow{
+            transform: rotateZ(180deg);
+            transition: .5s;
+        }
+        .sublist{
+            position: absolute;
+            top: 0;
+            left: 30px;
+        }
+       
+    </style>
+</head>
+<body>
+    <button class="create">CreateUl</button>
+    <input type="text" name="num" class="ulnum">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, quaerat?</p>
+    <p class="text1">sdvsdv</p>
+    <script src="./script.js"></script>
+</body>
+</html>
