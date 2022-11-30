@@ -1,0 +1,36 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.main{
+  background-color: antiquewhite;
+  padding: 60px;
+  border-radius: 10px;
+  height: 100vh;
+}
+.dark .main{
+  background-color: #272727;
+  color: antiquewhite;
+}
+
+
+
+
+
+
+
+.change_moge{
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #272727;
+  border: none;
+  cursor: pointer;
+}
+.dark .change_moge{
+  background-color: antiquewhite;
+}
