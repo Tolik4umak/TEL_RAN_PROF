@@ -163,13 +163,66 @@ function merge(arr, left, middle, rigth){  // [3 4]  [1 2]
 //     }
 // }
 
-
-
-
-
-
-
-
-
 mergeSort(arr,0,arr.length-1);
 console.log(arr);
+
+
+
+
+
+
+
+
+console.log('========')
+console.log('LESSON 5')
+console.log('========')
+
+
+
+let a = 123;
+
+
+function reverseNum(x){
+    let d = 0;
+    let y = 0;
+    while(x>0){
+        d = x%10
+        y = y*10+d
+        x = Math.floor(x/10)
+    }
+    return y 
+}
+
+// console.log(reverseNum(a))
+
+
+function reverseX(x){
+    if(x<10){
+        return x
+    }else{
+        return +("" + x%10 + reverseX(Math.floor(x/10)))
+    }
+}
+
+
+console.log(reverseX(a))
+
+
+function fib(n){
+    if(n==1||n==2){
+        return 1
+    }
+    let a = fib(n - 1) + fib(n - 2)
+    return a
+}
+
+console.log(fib(7))
+
+let num1=1;
+let num2=1;
+for(let i = 0;i<5;i++){
+    console.log(num1)
+    console.log(num2)
+    num1 = num2+num1;
+    num2 = num1+num2;
+}
