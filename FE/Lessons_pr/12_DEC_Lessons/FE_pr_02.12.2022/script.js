@@ -124,6 +124,8 @@ const orders =
 
 const productsContainer = document.querySelector('.products')
 const searchInput = document.querySelector('.search-input')
+const categories = document.querySelector('.categories')
+const category = document.querySelectorAll('.category')
 
 
 const showProducts = function(products){
@@ -142,8 +144,47 @@ showProducts(laptops);
 
 
 searchInput.addEventListener('input', (event)=>{
-    const newList = laptops.filter(({name}) => name.includes(event.target.value))
+    if(event.target.value == ' '){
+        event.target.value = ''
+        event.target.placeholder = '"spase not allow"'
+        event.target.style.boxShadow = '0 0 30px -15px red inset'
+        setTimeout(function(){ 
+            event.target.placeholder = 'Найти,,,';
+            event.target.style.boxShadow = 'none'
+        }, 1500)
+    }
+    const newList = laptops.filter(({name}) => name.toLowerCase().includes(event.target.value.toLowerCase()))
     showProducts(newList);
+})
+
+// categories.addEventListener('click',(event)=>{
+//     const myCategory = event.target.innerText.toLowerCase()
+//     if(myCategory.includes('все')){
+//         showProducts(laptops);
+//     }else{
+//         const recreateList = laptops.filter(({category})=> category == myCategory)
+//         showProducts(recreateList);
+//     }
+//     console.log(myCategory)
+
+   
+// })
+
+category.forEach((el)=>{
+    el.addEventListener('click',(event)=>{
+        const myCategory = el.innerText.toLowerCase();
+        // if(myCategory =='все'){
+        //     showProducts(laptops);
+        // }else{
+        //     const recreateList = laptops.filter(({category})=> category == myCategory)
+        //     showProducts(recreateList);
+        // }
+        category.forEach(item => item.style.background = 'none')
+        el.style.background = '#ccc'
+
+        myCategory =='все' ? showProducts(laptops): showProducts(laptops.filter(({category})=> category == myCategory));
+
+    })
 })
 
 
@@ -153,6 +194,45 @@ searchInput.addEventListener('input', (event)=>{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const arr = [
+    {
+        name: 'Arsen',
+    },
+    {
+        name: 'Anna',
+    },
+    {
+        name: 'Ivan',
+    },
+]
+
+let str = 'i';
+
+
+let arr2 = arr.filter(({name})=> name.toLowerCase().includes(str.toLowerCase()))
+
+console.log(arr2)
 
 
 
