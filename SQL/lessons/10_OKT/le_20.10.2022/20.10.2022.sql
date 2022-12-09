@@ -2002,11 +2002,120 @@ from airliners;
 
 
 
+/*
+██████  ██████       ██ ██████  
+██   ██ ██   ██     ███      ██ 
+██████  ██████       ██  █████  
+██      ██   ██      ██ ██      
+██      ██   ██      ██ ███████ 
+                                
+                                
+*/
+
+use hr;
+show tables;
+
+
+-- найти сотрудников, у которых максимальная зп в компании 
+select 
+	*
+from employees
+where salary = (select max(salary) from employees);
+
+-- найти сотрудников с максимальной зп в каждом департаменте 
+
+select 
+	max(salary),
+    department_id
+from employees
+group by department_id;
+
+select 
+	t1.first_name,
+    t1.department_id,
+    t1.salary
+from employees t1
+inner join (select 
+				max(salary) as max_salary,
+				department_id
+			from employees
+			group by department_id) t2
+on t1.department_id = t2.department_id and t1.salary = t2.max_salary;
+
+
+-- сотрудников с максимальной зп в их job_id 
+
+select 
+	t1.first_name,
+    t1.job_id ,
+    t1.salary
+from employees t1
+inner join (select 
+				max(salary) as max_salary,
+				job_id 
+			from employees
+			group by job_id ) t2
+on t1.job_id  = t2.job_id  and t1.salary = t2.max_salary;
+
+-- найти количество сотрудников в каждом департаменте 
+
+select 
+ count(*) as person_in_department,
+ department_id
+from employees
+group by department_id;
+
+
+select
+ t1.first_name,
+ t1.department_id,
+ t2.person_in_department
+from employees t1
+inner join (select 
+				count(*) as person_in_department,
+				department_id
+			from employees
+			group by department_id) t2
+on t1.department_id = t2.department_id;
+ 
+ -- вывести название департаментов и кол-во сотрудников в них 
+ 
+select
+ t1.department_name,
+ t1.department_id,
+ t2.person_in_department
+from departments t1
+inner join (select 
+				count(*) as person_in_department,
+				department_id
+			from employees
+			group by department_id) t2
+on t1.department_id = t2.department_id;
+
+select * from departments;
+
+
+-- вывести названия департаментов, в которых меньше 10 сотрудников 
+
+select
+ t1.department_name
+from departments t1
+inner join (select 
+				count(*) as person_in_department,
+				department_id
+			from employees
+			group by department_id
+            having count(*) < 10) t2
+on t1.department_id = t2.department_id;
+
+    
 
 
 
 
 
+
+    
 
 
 
