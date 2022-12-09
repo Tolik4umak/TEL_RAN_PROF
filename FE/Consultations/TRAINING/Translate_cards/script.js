@@ -24,7 +24,7 @@ form.addEventListener('submit', (event)=>{
     const translate = translationWord.value;
     const id = Date.now();
     if(original != ''&&translate!=''){
-        wordList.push({id,original,translate})
+        wordList.unshift({id,original,translate})
         localStorage.setItem('translation',JSON.stringify(wordList))
     }
 
@@ -87,16 +87,27 @@ function rotateAllCards(event){
     const rotateList = document.querySelectorAll('.card_container');
 
     if(localStorage.getItem('currentSide') == 'frontside'){
-        rotateList.forEach((card)=>{
-            card.classList.add('rotate180')
-        })
-        localStorage.setItem('currentSide','backside')
+        if([...rotateList].every(item=>item.classList.contains('rotate180'))){
+            rotateList.forEach((card)=>{
+                card.classList.remove('rotate180')
+            })
+        }else{
+            rotateList.forEach((card)=>{
+                card.classList.add('rotate180')
+            })
+            localStorage.setItem('currentSide','backside')
+        }
     }else{
-        rotateList.forEach((card)=>{
-            card.classList.remove('rotate180')
-        })
-        localStorage.setItem('currentSide','frontside')
+        if([...rotateList].every(item=> !(item.classList.contains('rotate180')))){
+            rotateList.forEach((card)=>{
+                card.classList.add('rotate180')
+            })
+        } else{
+            rotateList.forEach((card)=>{
+                card.classList.remove('rotate180')
+            })
+            localStorage.setItem('currentSide','frontside')
+        }
     }
- 
 }
 

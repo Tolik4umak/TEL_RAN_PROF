@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
 }
 
 
@@ -120,4 +121,27 @@
     color: #f3d7b3;
     font-weight: 900;
     border-radius: 50%;
+}
+.anker{
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    z-index: 1;
+    color: #398186;
+    font-size: 25px;
+    font-weight: bold;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #38868b;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #1f789148;
+    transition: 1s;
+}
+.anker:active{
+    transform: translateY(-20px);
+    transition: 0.1s;
+    background-color: #1f7891c4;
+
 }
