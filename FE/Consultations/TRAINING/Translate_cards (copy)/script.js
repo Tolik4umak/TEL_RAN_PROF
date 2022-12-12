@@ -5,6 +5,7 @@ const originalWord = document.querySelector('.original_word')
 const translationWord = document.querySelector('.translated_word')
 const addButton = document.querySelector('.addToList')
 const rotateButton = document.querySelector('.rotateAll')
+const showformButton = document.querySelector('.showformButton')
 const searchInput = document.querySelector('.search')
 
 if(!localStorage.getItem('currentSide')){
@@ -37,7 +38,17 @@ form.addEventListener('submit', (event)=>{
 
 searchInput.addEventListener('input',(event)=> findFilter(event))
 
+showformButton.addEventListener('click',(event)=>{
+    originalWord.classList.toggle('hide')
+    translationWord.classList.toggle('hide')
+    addButton.classList.toggle('hide')
+})
 
+searchInput.addEventListener('focus',(event)=> {
+    originalWord.classList.add('hide')
+    translationWord.classList.add('hide')
+    addButton.classList.add('hide')
+})
 
 
 function rerender(arr){
