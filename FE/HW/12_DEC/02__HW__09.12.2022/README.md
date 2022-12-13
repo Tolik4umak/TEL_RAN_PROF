@@ -1,4 +1,4 @@
-#GITHUB PAGES  Anatolii Chumak HW 09.12.2022
+# GITHUB PAGES  Anatolii Chumak HW 09.12.2022
 
 [Go to website to check console](https://tolik4umak.github.io/TEL_RAN_PROF/FE/HW/12_DEC/02__HW__09.12.2022/index.html)
 
