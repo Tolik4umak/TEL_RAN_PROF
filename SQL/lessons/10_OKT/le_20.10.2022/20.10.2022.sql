@@ -2110,18 +2110,122 @@ on t1.department_id = t2.department_id;
 
     
 
+-- --------------------------------------- -------------------------------------
+-- --------------------------------------- -------------------------------------
+-- --------------------------------------- -------------------------------------
+-- --------------------------------------- -------------------------------------
+-- --------------------------------------- -------------------------------------
 
 
 
+create database shops;
+use shops;
+
+CREATE TABLE SELLERS(
+       SELL_ID    INTEGER, 
+       SNAME   CHAR(20), 
+       CITY    CHAR(20), 
+       COMM    NUMERIC(3, 2),
+       BOSS_ID  INTEGER
+);
+                                            
+CREATE TABLE CUSTOMERS(
+       CUST_ID    INTEGER, 
+       CNAME   CHAR(20), 
+       CITY    CHAR(20), 
+       RATING  INTEGER
+);
+
+CREATE TABLE ORDERS(
+       ORDER_ID  INTEGER, 
+       AMT     NUMERIC(7,2), 
+       ODATE   DATE, 
+       CUST_ID    INTEGER,
+       SELL_ID    INTEGER 
+);
 
 
+INSERT INTO SELLERS VALUES(201,'Олег','Москва',0.12,202);
+INSERT INTO SELLERS VALUES(202,'Лев','Сочи',0.13,204);
+INSERT INTO SELLERS VALUES(203,'Арсений','Владимир',0.10,204);
+INSERT INTO SELLERS VALUES(204,'Екатерина','Москва',0.11,205);
+INSERT INTO SELLERS VALUES(205,'Леонид ','Казань',0.15,NULL);
+
+
+INSERT INTO CUSTOMERS VALUES(301,'Андрей','Москва',100);
+INSERT INTO CUSTOMERS VALUES(302,'Михаил','Тула',200);
+INSERT INTO CUSTOMERS VALUES(303,'Иван','Сочи',200);
+INSERT INTO CUSTOMERS VALUES(304,'Дмитрий','Ярославль',300);
+INSERT INTO CUSTOMERS VALUES(305,'Руслан','Москва',100);
+INSERT INTO CUSTOMERS VALUES(306,'Артём','Тула',100);
+INSERT INTO CUSTOMERS VALUES(307,'Юлия','Сочи',300);
+
+INSERT INTO ORDERS VALUES(101,18.69,'2022-03-10',308,207);
+INSERT INTO ORDERS VALUES(102,5900.1,'2022-03-10',307,204);
+INSERT INTO ORDERS VALUES(103,767.19,'2022-03-10',301,201);
+INSERT INTO ORDERS VALUES(104,5160.45,'2022-03-10',303,202);
+INSERT INTO ORDERS VALUES(105,1098.16,'2022-03-10',308,207);
+INSERT INTO ORDERS VALUES(106,75.75,'2022-04-10',304,202); 
+INSERT INTO ORDERS VALUES(107,4723,'2022-05-10',306,201);
+INSERT INTO ORDERS VALUES(108,1713.23,'2022-04-10',302,203);
+INSERT INTO ORDERS VALUES(109,1309.95,'2022-06-10',304,203);
+INSERT INTO ORDERS VALUES(110,9891.88,'2022-06-10',306,201);
+
+
+show tables;
+
+-- 1
+
+select
+*
+from orders
+where monthname(odate) = 'March'; 
+
+select
+*
+from orders
+where month(odate) = 3;
     
+-- 2. Определить, какие покупки были совершены в период с 10 апреля 2022 по 10 мая 2022 (включительно) 
+
+select 
+	*
+from ORDERS
+where date(ODATE) between '2022-04-10' and '2022-05-10';
 
 
+-- 3 Определить сколько покупок было совершено в июне 
 
+select 
+	count(ODATE)
+from ORDERS
+where month(ODATE)=6;
 
+-- 5 определить какие покупки были совершены во вторник
 
+select 
+	*
+from ORDERS
+where weekday(ODATE) = 1;
 
+-- 6 Определить среднюю стоимость покупок в марте
+
+select 
+	avg(AMT)
+from ORDERS
+where month(ODATE)=3;
+
+-- 7  определить какие покупки были совершены после 15 недели
+
+select 
+	*
+from ORDERS
+where yearweek(ODATE)>202215;
+
+select 
+	*,
+    dayofyear(ODATE)
+from ORDERS;
 
 
 
