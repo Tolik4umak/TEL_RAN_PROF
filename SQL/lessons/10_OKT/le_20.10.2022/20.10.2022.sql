@@ -2228,6 +2228,177 @@ select
 from ORDERS;
 
 
+/*
+██           ██ ███████     ██ ██████     ██████   ██████  ██████  ██████  
+██          ███ ██         ███      ██         ██ ██  ████      ██      ██ 
+██           ██ ███████     ██  █████      █████  ██ ██ ██  █████   █████  
+██           ██      ██     ██ ██         ██      ████  ██ ██      ██      
+███████      ██ ███████ ██  ██ ███████ ██ ███████  ██████  ███████ ███████
+*/
+
+
+
+-- 1. Определить сколько покупок было совершено во вторник. 
+select 
+	count(*)
+from ORDERS
+where weekday(ODATE) = 1;
+
+
+-- 2. Определить сколько покупок было совершено в каждый месяц. 
+-- Отсортировать строки по количеству покупок - сначала месяцы с нименьшим кол-вом покупок, потом с наибольшим.
+-- Вывести два поля - номер месяца и кол-во покупок в этот месяц. 
+
+select 
+	count(*) as buy_num,
+    month(ODATE) as month_num
+from ORDERS
+group by month(ODATE)
+order by buy_num;
+
+-- 3. Определить, в какой месяц(ы) было совершено больше всего покупок 
+
+create view v_orders_count as 
+select 
+	month(ODATE) as month,
+	count(*) as orders_cnt
+from ORDERS
+group by month;
+
+select
+	*
+from v_orders_count
+where orders_cnt = (select max(orders_cnt) from v_orders_count);
+
+
+
+
+-- ===============
+
+-- Разделите самолеты на три класса по возрасту. 
+-- Если самолет произведен раньше 2000 года, то отнесите его к классу 'Old'. 
+-- Если самолет произведен между 2000 и 2010 годами включительно, то отнесите его к классу 'Mid'. 
+-- Более новые самолеты отнесите к классу 'New'. 
+-- Исключите из выборки дальнемагистральные самолеты с максимальной дальностью полета больше 10000 км. 
+-- Отсортируйте выборку по классу возраста в порядке возрастания.
+-- В выборке должны присутствовать два атрибута — side_number, age. 
+
+
+use airport;
+
+
+select 
+	range_,
+	side_number,
+	case 
+		when production_year <2000 then 'Old'
+		when production_year between 2000 and 2010 then 'Mid'
+        else 'New'
+	end as age
+from airliners
+where range_ <= 10000
+order by age;
+
+-- ДЗ:
+-- 1. Напишите запрос, который выведет id клиентов, чье значение атрибута name начинается на Daria. В выборке должен присутствовать один атрибут — id.
+
+-- 2. Определите рейсы с точкой назначения в аэропортах, коды которых PEZ, MMK и VKO. В выборке должен присутствовать один атрибут — id.
+
+-- 3. Определите id рейсов, которые должны были вылететь из аэропорта Домодедово (DME), но были отменены. В выборке должен присутствовать один атрибут — id.
+
+-- 4. Определите имена и фамилии пассажиров, чьи идентификаторы заканчиваются на RCB или FCV, а номера телефонов не начинаются на +705. 
+-- В выборке должен присутствовать один атрибут — name.
+
+-- 5. Руководство авиакомпании снизило цены на билеты рейсов LL4S1G8PQW, 0SE4S0HRRU и JQF04Q8I9G. 
+-- Скидка на билет экономкласса (Economy) составила 15%, 
+-- на билет бизнес-класса (Business) — 10%, 
+-- а на билет комфорт-класса (PremiumEconomy) — 20%. 
+-- Определите цену билета в каждом сегменте с учетом скидки.
+-- В выборке должны присутствовать три атрибута — id, trip_id, new_price. 
+
+
+
+/*
+██████  ██████       ██  ██████      ██ ██████     ██████   ██████  ██████  ██████  
+██   ██ ██   ██     ███ ██          ███      ██         ██ ██  ████      ██      ██ 
+██████  ██████       ██ ███████      ██  █████      █████  ██ ██ ██  █████   █████  
+██      ██   ██      ██ ██    ██     ██ ██         ██      ████  ██ ██      ██      
+██      ██   ██      ██  ██████  ██  ██ ███████ ██ ███████  ██████  ███████ ███████ 
+*/
+	
+
+
+-- задачи с базы  https://livesql.oracle.com/apex/f?p=590:1:4611254870240:::RP::
+select * from oe.customers; 
+select * from oe.orders; 
+select * from oe.order_items; 
+select * from oe.product_information;
+
+-- 1. Найти среднее значение unit_price для тех товаров, у которых quantity больше 50. 
+
+select
+    avg(UNIT_PRICE)
+from oe.order_items
+where QUANTITY > 50;
+
+-- с case
+select 
+	avg( case 
+		when quantity > 50 then unit_price 
+        else null end ) as avg_price 
+from oe.order_items; 
+
+-- 2. Вывести id тех покупателей(customer_id), сумма покупок(order_total) у которых больше 100.000. 
+
+select 
+    customer_id, 
+    sum(ORDER_TOTAL) 
+from oe.orders 
+group by customer_id 
+having sum(ORDER_TOTAL) > 100000; 
+
+
+-- 3. Вывести имя и фамилию тех покупателей, суммы покупок у которых больше 100.000. 
+
+select 
+    t1.CUST_FIRST_NAME,
+    t1.CUST_LAST_NAME,
+    t2.CUSTOMER_ID,
+    t2.ORDER_SUM
+from oe.customers t1
+inner join (select sum(ORDER_TOTAL) as ORDER_SUM, CUSTOMER_ID from oe.orders group by CUSTOMER_ID having sum(ORDER_TOTAL) > 100000) t2
+on t1.CUSTOMER_ID=t2.CUSTOMER_ID;
+
+
+
+-- 4. Если у покупателя credit_limit меньше 600, выводить 1, если больше либо равно 600 и меньше 800 выводить 2, если больше либо равно 800 вводить 3, и выводить имя и фамилию покупателей.
+
+select
+    CUST_FIRST_NAME,
+    CUST_LAST_NAME,
+    case
+        when CREDIT_LIMIT < 600 then 1
+        when CREDIT_LIMIT >= 600 and CREDIT_LIMIT < 800 then 2
+        ELSE 3
+    end as credit
+from oe.customers;
+
+-- 5. Если у покупателя сумма order_total больше 150.000 вывести member, в остальных случаях new, также вывести id покупателя. 
+
+select
+    CUSTOMER_ID,
+    case
+        when sum(ORDER_TOTAL) > 150000 then 'member'
+        else 'new'
+    end as ORDER_TOTAL_STATUS
+from oe.orders
+group by CUSTOMER_ID;
+
+
+
+
+
+
 
 
 

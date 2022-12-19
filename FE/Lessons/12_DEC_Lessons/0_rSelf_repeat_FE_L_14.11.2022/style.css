@@ -1,0 +1,27 @@
+.post{
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px;
+}
+.sub_header{
+    font-size: 30px;
+}
+.post-form{
+    max-width: 900px;
+    margin: 30px auto;
+    border: 1px solid black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.post-form button{
+    width: 50%;
+    min-width: 100px;
+    align-self: flex-end;
+}
+.post-form > *{
+    padding: 20px;
+    resize: none;
+}
