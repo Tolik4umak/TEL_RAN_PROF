@@ -1,0 +1,123 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body ,html{
+    width: calc(100vw - 10px);
+    height: (100vh - 10px);
+    padding: 0 10px;
+}
+
+.wrapper{
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form{
+    padding: 20px 0 ;
+    display: grid;
+    grid-template-columns: 1fr 150px;
+    margin-bottom: 50px;
+}
+.form input, .form button{
+  padding: 15px;
+  font-size: 16px;
+  outline: none;
+  border: none;
+}
+.form input{
+    border: 1px solid black;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+}
+.form button{
+    border: 1px solid #272727;
+    border-left: none;
+    background-color: #272727;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 0 10px 10px 0;
+}
+.form button:hover{
+   background-color: black;
+}
+.form button:active{
+    font-size: 14px;
+ }
+
+
+
+ .container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+    grid-gap: 10px;
+ }
+ .card{
+    border: 1px solid rgb(196, 196, 196);
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px -20px rgb(136, 136, 136);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 30px 1fr ;
+    position: relative;
+ }
+ .card>div{
+    margin-bottom: 10px;
+ }
+ .card_img{
+    width: 50%;
+    margin: 0 auto 20px;
+}
+.card_img img{
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+.card_title{
+    font-weight: 700;
+    color: #285b85;
+}
+.card_category{
+    font-style: italic;
+    text-decoration: underline;
+}
+.card_descr{
+   max-height: 110px;
+   overflow: hidden;
+   font-size: 14px;
+   color: #7a7a7a;
+   font-style: italic;
+
+ }
+.card_price{
+    font-size: 25px;
+    color: #000000;
+}
+.card_rate_container{
+    background-color: #ebebeb;
+}
+.card_rate, .card_count{
+   /* color: #6e6e6e; */
+}
+.card_rate-diagram{
+    height: 10px;
+}
+.card_remove{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    outline: none;
+    border: none;
+    color: #963e3e;
+    cursor: pointer;
+    font-size: 30px;
+    background: none;
+}
+
+ 
+
