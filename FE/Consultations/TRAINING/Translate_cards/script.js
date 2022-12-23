@@ -55,6 +55,10 @@ function createCard(card, _ ,myArr){
     const front = document.createElement('div')
     const back = document.createElement('div')
 
+    const edit = document.createElement('div')
+    edit.classList.add('edit')
+    edit.innerHTML = '<i class="las la-pen"></i>'
+
     container.classList.add('card')
     del.classList.add('del')
     box.classList.add('card_container')
@@ -63,19 +67,49 @@ function createCard(card, _ ,myArr){
     back.classList.add('card_back')
     back.classList.add('side')
 
-    container.append(del,box)
-    del.innerText ='X'
+    container.append(edit,del,box)
+    del.innerHTML ='<i class="las la-times"></i>'
     box.append(front,back)
-    front.innerText = card.original
-    back.innerText = card.translate
+    front.innerHTML = card.original
+    back.innerHTML = card.translate
 
     if(localStorage.getItem('currentSide') == 'backside'){
         box.classList.add('rotate180')
     }
     del.addEventListener('click',(event)=> delCard(myArr,card.id))
     box.addEventListener('click',rotateCard)
+    edit.addEventListener('click',(e)=> updateData(container,card, _ ,myArr))
+
+   
 
     return container
+}
+
+function updateData(container,card, _ ,myArr){
+    container.innerHTML += `
+        <form class = 'changeForm'>
+            <input class="or_word" type="text" placeholder="change word" value = ${card.original}>
+            <input class="tr_word" type="text" placeholder="translation" value = ${card.translate}>
+            <button class="changeList"type="submit">change</button>
+        <form/>
+        `
+        let change = container.querySelector('.changeForm')
+        change.addEventListener('submit',(e)=>{
+            e.preventDefault()
+            let fr = change.querySelector('.or_word').value
+            let bc = change.querySelector('.tr_word').value
+
+            console.log(card.id)
+
+            wordList.forEach((el)=>{
+                if(el.id == card.id){
+                    el.original = fr != '' ? fr:card.original
+                    el.translate = bc != '' ? bc:card.translate
+                }
+            })
+            localStorage.setItem('translation',JSON.stringify(wordList))
+            rerender(myArr)
+        })
 }
 
 function delCard(arr, cardId){
@@ -89,6 +123,7 @@ function delCard(arr, cardId){
 function rotateCard(){
     this.classList.toggle('rotate180')
 }
+
 function rotateAllCards(event){
     const rotateList = document.querySelectorAll('.card_container');
 

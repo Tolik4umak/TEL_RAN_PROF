@@ -39,7 +39,7 @@
 .buttons{
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20px,1fr));
+    grid-template-columns: 50% 50%;
     gap: 5px;
     margin-bottom: 20px;
 }
@@ -97,6 +97,22 @@
     border-radius: 20px;
     padding: 10px;
 }
+.edit{
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    text-align: center;
+    background-color: #72ad59;
+    z-index: 1;
+    top: -15px;
+    right: 35px;
+    font-size: 25px;
+    line-height: 38px;
+    color: #ffffff;
+    font-weight: 900;
+    border-radius: 50%;
+}
+
 .card_front{
     background-color: #f3d7b3;
     transform: translateZ(1px);
@@ -144,7 +160,5 @@
     transform: translateY(-20px);
     transition: 0.1s;
     background-color: #1f7891c4;
-}
-.hide{
-    display: none;
+
 }
