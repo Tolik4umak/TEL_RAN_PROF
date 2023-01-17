@@ -94,3 +94,6 @@ function delCard(localId){
 
 
 
+fetch (`https://fakestoreapi.com/products/1`)
+.then((resp)=> resp.json())
+.then((prod)=> console.log(prod))

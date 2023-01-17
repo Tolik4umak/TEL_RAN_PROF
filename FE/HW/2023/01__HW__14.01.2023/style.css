@@ -1,0 +1,82 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+html,body{
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+}
+
+.wrapper{
+    padding: 20px 0;
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-gap: 10px;
+}
+.card{
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 1fr;
+}
+.card>div{
+    margin-bottom: 10px;
+}
+.image img{
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+}
+.description{
+    height: 110px;
+    overflow: hidden;
+}
+.title{
+    font-size: larger;
+    font-weight: bolder;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.category{
+    text-decoration: underline;
+    font-style: italic;
+    cursor: pointer;
+}
+.description{
+    position: relative;
+}
+.description::after{
+    content: '';
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(0deg, #fff 0%, #ffffff00 100%);;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.del{
+    background: rgba(138, 24, 24, 0.788);
+    line-height: 30px;
+    color: white;
+    font-size: larger;
+    font-weight: bolder;
+    border-radius: 7px;
+    cursor: pointer;
+}
+.del:hover{
+    background: rgba(187, 0, 0, 0.788);
+}
+.price{
+    color: green;
+    font-size: larger;
+    font-weight: bolder;
+}

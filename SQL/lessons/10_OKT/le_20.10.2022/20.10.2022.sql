@@ -2395,6 +2395,94 @@ from oe.orders
 group by CUSTOMER_ID;
 
 
+/*
+██████  ██████      ██████  ██████      ██ ██████     ██████   ██████  ██████  ██████  
+██   ██ ██   ██          ██      ██    ███      ██         ██ ██  ████      ██      ██ 
+██████  ██████       █████   █████      ██  █████      █████  ██ ██ ██  █████   █████  
+██      ██   ██     ██           ██     ██ ██         ██      ████  ██ ██      ██      
+██      ██   ██     ███████ ██████  ██  ██ ███████ ██ ███████  ██████  ███████ ███████ 
+                                                                                       
+                                                                                       
+*/
+
+
+use hr;
+
+-- до 10000 - 1 группа
+-- от 10001 до 15000 - 2 группа
+-- более 15001 - 3 группа 
+
+select
+	first_name,
+    last_name,
+    salary,
+    case 
+		when salary <= 10000 then 1 
+		when salary <= 15000 then 2
+        else 3
+	end as salary_group
+from employees;
+
+-- 2.  сформировать 3 поля (salary_group_1, salary_group_2, salary_group_3) в этих полях кол-во сотрудников 
+-- в этих группах 
+
+select
+	count(
+		case
+			when salary <= 10000 then 1
+		end 
+    )as salary_group_1,
+    count(
+		case
+			when salary between 10001 and 14999 then 1
+		end 
+    )as salary_group_2,
+    count(
+		case
+			when salary > 15000 then 1
+		end 
+    )as salary_group_3
+from employees;
+	
+    
+-- сформировать поле, которое принимает значение 1, если в департаменте есть сотрудник, зарабатывающий меньше 5000 
+
+
+select 
+	department_id,
+    max(
+		case
+			when salary < 5000 then 1
+			else 0
+		end
+    ) as flg
+from employees
+group by department_id;
+
+
+-- сформировать поле, которое принимает значение 1, если все сотрудники департамента зарабатывают больше 15000 и 0 в ином случае 
+
+select 
+	department_id,
+    min(
+		case
+			when salary > 15000 then 1
+			else 0
+		end
+    ) as flg,
+    min(salary)
+from employees
+group by department_id;
+
+
+
+
+
+
+
+
+
+
 
 
 
