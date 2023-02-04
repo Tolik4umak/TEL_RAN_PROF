@@ -1,0 +1,53 @@
+.container{
+    width: 500px;
+    height: 500px;
+    background: #c7c7c7;
+    margin: 50px;
+    overflow: hidden;
+    position: relative;
+}
+.figure1{
+    width: 300px;
+    height: 300px;
+    background: green;
+    border-radius: 50%;
+    position: relative;
+    top: -100px;
+    left: -100px;
+}
+.figure2{
+    width: 0;
+    height: 0;
+    border-right: 150px solid red;
+    border-top: 150px solid transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.figure3{
+    width: 400px;
+    height: 50px;
+    background: blue;
+    transform: rotate(50deg);
+    position: absolute;
+    top: 200px;
+}
+.figure4{
+    width: 120px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: greenyellow;
+    position: absolute;
+    top: calc(250px - 120px / 2);
+    right: 150px;
+}
+.figure5{
+    width: 300px;
+    height: 100px;
+    background: rgb(162, 0, 255);
+    position: absolute;
+    border-radius: 35px;
+    position: absolute;
+    left: calc(250px - 300px / 2);
+    bottom: 50px;
+}

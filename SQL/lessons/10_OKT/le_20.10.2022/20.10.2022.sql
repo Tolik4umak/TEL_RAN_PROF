@@ -2474,7 +2474,211 @@ select
 from employees
 group by department_id;
 
+-- //////////////////////////////
+-- //////////////////////////////
+-- //////////////////////////////
+-- //////////////////////////////
+-- //////////////////////////////
 
+
+
+
+
+show databases;
+show tables;
+use hr;
+
+select * from employees;
+
+select
+	*
+from employees
+where salary = (select max(salary) from employees);
+
+
+-- найти департаменты, где нет ни одного сотрудника
+
+select
+	department_id
+from departments 
+where department_id not in (
+	select department_id from employees
+    where department_id is not null
+);
+
+
+-- вывести имя и фамилию сотрудников, у которых зп больше средней
+
+
+select
+	first_name,
+    last_name
+from employees
+where salary > (select avg(salary) from employees)
+order by salary;
+
+
+-- найти сотрудников, у которых зп больше средней в своем департаменте
+
+
+select 
+	department_id,
+    avg(salary) as max_salary
+from employees
+group by department_id;
+
+
+select
+	t1.first_name
+from employees t1
+inner join (select 
+	department_id,
+    avg(salary) as avg_salary
+from employees
+group by department_id) t2 
+on t1.department_id = t2.department_id and t1.salary > t2.avg_salary;
+
+
+
+
+
+
+select
+	t1.first_name,
+    t1.last_name,
+    t2.first_name,
+    t2.last_name,
+    t1.salary,
+    case 
+	when t1.first_name = t2.first_name and t1.last_name = t2.last_name
+		then 1
+		else 0
+	end as test
+from hr.employees t1
+left join (
+ select
+  employee_id,
+  first_name,
+  last_name
+ from hr.employees
+ where salary > (
+  select avg(salary) from hr.employees
+ )
+) t2 
+on t1.employee_id = t2.employee_id;
+
+
+
+select
+	first_name,
+    last_name,
+    salary,
+    case
+		when salary < 5000 then 1
+        when salary < 10000 then 2
+        else 3
+    end as salary_group
+from employees;
+
+
+-- ======= ================ =============== =======
+-- ======== ================ =============== ======
+-- = ======== ================ =============== =====
+-- == ======== ================ =============== ====
+-- === ======== ================ =============== ===
+
+
+use hr;
+
+-- 1) вывести job_title у которых максимальная зп больше средней
+
+select job_title
+from jobs
+where max_salary > (select avg(max_salary) from jobs);
+
+
+-- 2) найти job_title у которых наибольший разрыв в зп
+
+select 
+    (max_salary - min_salary) as dif
+from jobs;
+
+select 
+	job_title
+from jobs
+where max_salary - min_salary = (
+	select
+		max(max_salary - min_salary) as dif
+	from jobs
+);
+
+
+-- 3 найти сотрудников с зп больше средней
+
+select 
+	first_name,
+    last_name,
+    salary
+from employees
+where salary > (select avg(salary) from employees);
+
+
+-- найти процент сотрудников, у кого зп больше средней
+
+select
+	round(
+		count(
+			case
+				when salary > (select avg(salary) from employees)
+				then 1
+			end
+		) / count(*) *100 , 1
+    ) as round
+from employees;
+
+
+-- сформировать запрос, который выводи выборку состоящую из двух полей. 
+-- null_pct not_null_pct
+
+select 
+	count(
+		case
+			when commission_pct is not null
+            then 1
+        end
+    ) as not_null_pct,
+    count(
+		case
+			when commission_pct is null
+            then 1
+        end
+    ) as null_pct
+from employees;
+
+-- найти сотрудников с максимальной зп в их департаменте
+
+
+select 
+	max(salary),
+    department_id
+from employees
+group by department_id;
+
+
+select 
+	t1.first_name,
+    t1.last_name,
+    t1.department_id,
+    t1.salary
+from employees t1
+inner join (
+	select 
+		max(salary) as max_salary,
+		department_id
+	from employees
+	group by department_id
+	) t2
+on t1.department_id = t2.department_id and t1.salary = t2.max_salary;
 
 
 
