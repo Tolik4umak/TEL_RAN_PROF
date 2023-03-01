@@ -76,41 +76,84 @@ x = 2
 
 
 let arr3 = [1, 1, 2, 2, 2, 2, 3];
-let arr4 = [1,2,3,4,5,7,7,7,7,7,7,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,22,36,69,98,100];
+let arr4 = [1,2,3,4,5,7,7,7,7,7,7,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,22,36,69,99,100];
 
-function findCounter(arr,left,rigth,x){
-    let count = 0;
-    let middle  = Math.round((rigth+left)/2);
-         
-    if(arr[middle]==x){
-        count++
-        let i = middle;
-        let j = middle;
-        while(arr[i]==x||arr[j]==x){
-            i++
-            j--
-            if(arr[i]==x) {
+function countNum(arr, x , left = 0 , rigth = arr.length-1){
+    
+    let mid = Math.floor((rigth + left)/2);
+
+    console.log(left + " " + rigth + " " + mid)
+
+    if(left <= rigth){
+        console.log(arr[mid] == x )
+        console.log(arr[mid] +"="+ x )
+
+        if(arr[mid] == x ){
+
+            let count  = 1; 
+
+            for(let i = mid+1; arr[i]==x; i++){
                 count++
-            };
-            if(arr[j]==x) {
+            }
+
+            for(let i = mid-1; arr[i]==x; i--){
                 count++
-            };
-        };
-        return `Число ${x} повторяется в данном массиве ${count} ${count>1&&count<5? 'раза':'раз'}`; 
-    }else if(left>rigth){
-        return `массив не содержит число ${x}`
-    }else if(arr[middle]>x){
-        return findCounter(arr,left,middle-1,x);
-    }else if(arr[middle]<x){
-        return findCounter(arr,middle+1,rigth,x);
+            }
+
+            return {
+                index: mid,
+                num: arr[mid],
+                count: count
+            }
+        }else if(x < arr[mid]){
+            return countNum(arr, x , left , mid-1)
+        }else if(x > arr[mid]){
+            return countNum(arr, x , mid+1, rigth)
+        }
+    } else {
+        return 'no result'
     }
+    
 }
 
+console.log(countNum(arr3, 2))
 
-console.log(findCounter(arr3,0,arr3.length-1,2));
-console.log(findCounter(arr3,0,arr3.length-1,3));
-console.log(findCounter(arr4,0,arr4.length-1,8)); 
-console.log(findCounter(arr4,0,arr4.length-1,7)); 
-console.log(findCounter(arr4,0,arr4.length-1,98)); 
-console.log(findCounter(arr4,0,arr4.length-1,15)); 
+
+
+
+// function findCounter(arr,left,rigth,x){
+//     let count = 0;
+//     let middle  = Math.round((rigth+left)/2);
+         
+//     if(arr[middle]==x){
+//         count++
+//         let i = middle;
+//         let j = middle;
+//         while(arr[i]==x||arr[j]==x){
+//             i++
+//             j--
+//             if(arr[i]==x) {
+//                 count++
+//             };
+//             if(arr[j]==x) {
+//                 count++
+//             };
+//         };
+//         return `Число ${x} повторяется в данном массиве ${count} ${count>1&&count<5? 'раза':'раз'}`; 
+//     }else if(left>rigth){
+//         return `массив не содержит число ${x}`
+//     }else if(arr[middle]>x){
+//         return findCounter(arr,left,middle-1,x);
+//     }else if(arr[middle]<x){
+//         return findCounter(arr,middle+1,rigth,x);
+//     }
+// }
+
+
+// console.log(findCounter(arr3,0,arr3.length-1,2));
+// console.log(findCounter(arr3,0,arr3.length-1,3));
+// console.log(findCounter(arr4,0,arr4.length-1,8)); 
+// console.log(findCounter(arr4,0,arr4.length-1,7)); 
+// console.log(findCounter(arr4,0,arr4.length-1,98)); 
+// console.log(findCounter(arr4,0,arr4.length-1,15)); 
 
