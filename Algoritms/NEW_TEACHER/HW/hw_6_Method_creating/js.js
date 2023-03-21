@@ -71,11 +71,33 @@ class Arr{
     }
 
     set(index, data){
-        if((index && data) === undefined || index>=this.size ){
+        if(index === undefined || data === undefined || index>=this.size ){
             return false
         }
         this.arr[index] = data
         return true
+    }
+
+    clean() {
+        this.arr = []
+        this.size = 0
+    }
+
+    contains(data) {
+        if(data === undefined){
+            return false
+        }
+
+        for(let i = 0; i < this.size; i++){
+            if(this.arr[i] === data) return true
+        }
+
+        return false
+    }
+
+    isEmpty(){
+        if(this.size === 0) return true
+        return false
     }
 
 }
@@ -98,16 +120,23 @@ arr2.append(8)
 arr2.print()
 
 console.log(arr2.remove())
-
 arr2.print()
 
 console.log(arr2.removeAt(3))
-
 arr2.print()
 
 console.log(arr2.set(6, 55))
-
 arr2.print()
+
+console.log(arr2.contains(1))
+console.log(arr2.contains(46))
+console.log(arr2.isEmpty())
+
+
+arr2.clean()
+arr2.print()
+
+console.log(arr2.isEmpty())
 
 
 
