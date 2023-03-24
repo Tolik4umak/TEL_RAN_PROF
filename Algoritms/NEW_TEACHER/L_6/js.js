@@ -11,6 +11,8 @@ class Node {
       this.head = null;
       this.tail = null
     }
+  c
+  
   
     addToHead(val) {
       let node = new Node(val);
