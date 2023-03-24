@@ -133,10 +133,23 @@ console.log(arr2.contains(46))
 console.log(arr2.isEmpty())
 
 
-arr2.clean()
+// arr2.clean()
 arr2.print()
 
 console.log(arr2.isEmpty())
+
+
+
+
+arr2.append(8)
+arr2.append(8)
+arr2.removeAt(3)
+
+
+
+console.log(arr2.arr)
+
+
 
 
 
